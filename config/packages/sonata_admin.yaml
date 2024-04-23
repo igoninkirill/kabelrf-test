@@ -1,8 +1,17 @@
 sonata_admin:
     title: 'Sonata Admin'
     dashboard:
-        blocks:
-            - { type: sonata.admin.block.admin_list, position: left }
+        groups:
+            users_group:
+                label: 'Users'
+                icon: '<i class="fa fa-users"></i>'
+                items:
+                    - app.admin.user
+            products_group:
+                label: 'Products'
+                icon: '<i class="fa fa-product-hunt"></i>'
+                items:
+                    - app.admin.product
 
 sonata_block:
     blocks:

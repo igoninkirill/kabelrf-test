@@ -18,4 +18,5 @@
 ###> phpunit/phpunit ###
 /phpunit.xml
 .phpunit.result.cache
+/public/images
 ###< phpunit/phpunit ###

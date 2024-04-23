@@ -1,0 +1,9 @@
+{# templates/admin/products/image.html.twig #}
+{% extends '@SonataAdmin/CRUD/base_list_field.html.twig' %}
+{% block field %}
+    {% if value %}
+        <img src="{{ asset('/images/products/' ~ value) }}" alt="Image" style="height: 100px; width: auto;">
+    {% else %}
+        No image available.
+    {% endif %}
+{% endblock %}
