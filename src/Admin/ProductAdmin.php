@@ -59,7 +59,7 @@ class ProductAdmin extends AbstractAdmin
             ->add('isActive')
             ->add('isTagged')
             ->add('sortOrder')
-            ->add('imageName', 'image', [
+            ->add('imageName', 'imageFile', [
                 'template' => 'admin/product/image.html.twig'
             ]);
     }
@@ -72,6 +72,6 @@ class ProductAdmin extends AbstractAdmin
             ->add('isActive')
             ->add('isTagged')
             ->add('sortOrder')
-            ->add('image');
+            ->add('imageName');
     }
 }
