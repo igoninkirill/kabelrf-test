@@ -6,15 +6,25 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Sonata\AdminBundle\Route\RouteCollection;
 
 class ProductAdmin extends AbstractAdmin
 {
+    protected function configureRoutes(RouteCollectionInterface  $collection): void
+    {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $collection->clearExcept(['list', 'edit', 'delete', 'batch']);
+        } elseif ($this->isGranted('ROLE_MANAGER')) {
+            $collection->clearExcept(['list', 'show']);
+        }
+    }
+
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper

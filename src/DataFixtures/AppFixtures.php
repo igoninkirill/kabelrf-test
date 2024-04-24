@@ -20,22 +20,18 @@ class AppFixtures extends Fixture
     {
         // Создание администратора
         $admin = new User();
-        $admin->setFirstName('admin');
-        $admin->setLastName('admin');
-        $admin->setPatronymic('admin');
         $admin->setEmail('admin@admin.ru');
-        $admin->setIsActive(true);
+        $admin->setUsername('admin@admin.ru');
+        $admin->setEnabled(true);
         $admin->setPassword($this->passwordEncoder->encodePassword($admin, 'password'));
         $admin->setRoles(['ROLE_ADMIN']);
         $manager->persist($admin);
 
         // Создание менеджера
         $managerUser = new User();
-        $managerUser->setFirstName('manager');
-        $managerUser->setLastName('manager');
-        $managerUser->setPatronymic('manager');
         $managerUser->setEmail('manager@manager.ru');
-        $managerUser->setIsActive(true);
+        $managerUser->setUsername('manager@manager.ru');
+        $managerUser->setEnabled(true);
         $managerUser->setPassword($this->passwordEncoder->encodePassword($managerUser, 'password'));
         $managerUser->setRoles(['ROLE_MANAGER']);
         $manager->persist($managerUser);

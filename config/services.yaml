@@ -46,3 +46,7 @@ services:
             $entityManager: '@doctrine.orm.entity_manager'
             $params: '@parameter_bag'
             $slugify: '@Cocur\Slugify\SlugifyInterface'
+
+    mailer:
+        alias: fos_user.mailer.noop
+        public: true

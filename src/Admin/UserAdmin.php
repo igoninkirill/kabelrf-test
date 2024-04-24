@@ -18,15 +18,8 @@ class UserAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
-            ->add('firstName', TextType::class, [
-                'label' => 'First Name'
-            ])
-            ->add('patronymic', TextType::class, [
-                'label' => 'Patronymic',
-                'required' => false
-            ])
-            ->add('lastName', TextType::class, [
-                'label' => 'Last Name'
+            ->add('username', TextType::class, [
+                'label' => 'username'
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Email'
@@ -34,9 +27,9 @@ class UserAdmin extends AbstractAdmin
             ->add('password', PasswordType::class, [
                 'label' => 'Password'
             ])
-            ->add('isActive', CheckboxType::class, [
+            ->add('enabled', CheckboxType::class, [
                 'required' => false,
-                'label' => 'Active'
+                'label' => 'enabled'
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
@@ -54,10 +47,9 @@ class UserAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('email')
-            ->add('firstName')
-            ->add('lastName')
+            ->add('username')
             ->add('roles', 'array')
-            ->add('isActive')
+            ->add('enabled')
         ;
     }
 
@@ -65,19 +57,17 @@ class UserAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('email')
-            ->add('firstName')
-            ->add('lastName')
-            ->add('isActive');
+            ->add('username')
+            ->add('enabled');
     }
 
     protected function configureShowFields(ShowMapper $showMapper): void
     {
         $showMapper
             ->add('email')
-            ->add('firstName')
-            ->add('lastName')
+            ->add('username')
             ->add('roles', 'array')
-            ->add('isActive')
+            ->add('enabled')
             ->add('createdAt')
             ->add('updatedAt');
     }
