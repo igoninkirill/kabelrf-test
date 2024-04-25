@@ -81,14 +81,4 @@ class UserAdmin extends AbstractAdmin
     {
         $this->manageEmbeddedImageAdmins($object);
     }
-
-    private function manageEmbeddedImageAdmins($user): void
-    {
-        if ($user->getPassword()) {
-            $user->setPassword(
-            # TODO сервис для хэширования пароля
-                password_hash($user->getPassword(), PASSWORD_BCRYPT)
-            );
-        }
-    }
 }
