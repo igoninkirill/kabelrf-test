@@ -33,9 +33,8 @@ class UserAdmin extends AbstractAdmin
             ])
             ->add('roles', ChoiceType::class, [
                 'choices' => [
-                    'User' => 'ROLE_USER',
+                    'Manager' => 'ROLE_MANAGER',
                     'Admin' => 'ROLE_ADMIN',
-                    'Super Admin' => 'ROLE_SUPER_ADMIN'
                 ],
                 'multiple' => true,
                 'expanded' => true,
