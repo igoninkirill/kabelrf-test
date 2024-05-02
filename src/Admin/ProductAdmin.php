@@ -18,12 +18,11 @@ class ProductAdmin extends AbstractAdmin
     protected function configureRoutes(RouteCollectionInterface  $collection): void
     {
         if ($this->isGranted('ROLE_ADMIN')) {
-            $collection->clearExcept(['list', 'edit', 'delete', 'batch']);
+            $collection->clearExcept(['list', 'edit', 'delete', 'batch', 'create', 'export', 'show']);
         } elseif ($this->isGranted('ROLE_MANAGER')) {
             $collection->clearExcept(['list', 'show']);
         }
     }
-
 
     protected function configureFormFields(FormMapper $formMapper): void
     {

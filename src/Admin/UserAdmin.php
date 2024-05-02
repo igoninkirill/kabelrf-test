@@ -12,9 +12,21 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Sonata\AdminBundle\Route\RouteCollectionInterface;
 
 class UserAdmin extends AbstractAdmin
 {
+
+    protected function configureRoutes(RouteCollectionInterface $collection): void
+    {
+        parent::configureRoutes($collection);
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $collection->clearExcept(['list', 'edit', 'delete', 'batch', 'create', 'export', 'show']);
+        } elseif ($this->isGranted('ROLE_MANAGER')) {
+            $collection->clearExcept(['list', 'show']);
+        }
+    }
+
     protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
@@ -25,7 +37,8 @@ class UserAdmin extends AbstractAdmin
                 'label' => 'Email'
             ])
             ->add('password', PasswordType::class, [
-                'label' => 'Password'
+                'label' => 'Password',
+                'required' => $this->isCurrentRoute('create')
             ])
             ->add('enabled', CheckboxType::class, [
                 'required' => false,
@@ -66,18 +79,29 @@ class UserAdmin extends AbstractAdmin
             ->add('email')
             ->add('username')
             ->add('roles', 'array')
-            ->add('enabled')
-            ->add('createdAt')
-            ->add('updatedAt');
+            ->add('enabled');
     }
 
     public function prePersist(object $object): void
     {
-        $this->manageEmbeddedImageAdmins($object);
+        $this->handleUserPassword($object);
     }
 
     public function preUpdate(object $object): void
     {
-        $this->manageEmbeddedImageAdmins($object);
+        $this->handleUserPassword($object);
+    }
+
+    private function handleUserPassword($user): void
+    {
+        if ($user->getPassword()) {
+            $user->setPassword(
+                password_hash($user->getPassword(), PASSWORD_BCRYPT)
+            );
+        } else {
+            $uow = $this->getModelManager()->getEntityManager($user)->getUnitOfWork();
+            $originalData = $uow->getOriginalEntityData($user);
+            $user->setPassword($originalData['password']);
+        }
     }
 }
