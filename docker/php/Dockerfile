@@ -27,7 +27,20 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 ADD . /var/www/html
 WORKDIR /var/www/html
 
-COPY ./supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+ENV COMPOSER_ALLOW_SUPERUSER=1
+RUN curl -sS https://getcomposer.org/installer | php -- \
+    --version=2.0.14 \
+    --filename=composer \
+    --install-dir=/usr/local/bin
+RUN composer install --no-scripts --no-autoloader --prefer-dist && \
+    rm -rf /root/.composer
+ENV PHPUNIT_COMPOSER_INSTALL=1
+
+RUN mkdir -p public/images/products && \
+    chown -R www-data:www-data public/images/products && \
+    chmod -R 755 public/images/products
+
+COPY ./docker/php/supervisor/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 

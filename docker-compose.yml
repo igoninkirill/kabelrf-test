@@ -3,8 +3,8 @@ version: '3'
 services:
   app:
     build:
-      context: ./docker/php
-      dockerfile: Dockerfile
+      context: .
+      dockerfile: docker/php/Dockerfile
     container_name: kabel_app
     volumes:
       - ./:/var/www/html
