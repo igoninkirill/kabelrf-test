@@ -21,3 +21,4 @@
 /public/images
 ###< phpunit/phpunit ###
 .env
+.idea
